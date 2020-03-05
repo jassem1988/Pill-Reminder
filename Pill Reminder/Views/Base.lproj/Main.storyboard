@@ -139,13 +139,30 @@
                                     <constraint firstItem="yb5-Ek-OEt" firstAttribute="width" secondItem="sfF-Xz-fdJ" secondAttribute="width" id="y3O-gL-juA"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HLb-Bx-Uzg">
+                                <rect key="frame" x="0.0" y="612" width="375" height="55"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="rD2-Ha-V00"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendReminderButtonPressed:" destination="2QF-HN-lyR" eventType="touchUpInside" id="6RN-fq-S6R"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="HLb-Bx-Uzg" firstAttribute="bottom" secondItem="pVg-Oh-ryu" secondAttribute="bottom" id="6jC-5e-Hfe"/>
                             <constraint firstItem="Bns-Hk-djA" firstAttribute="top" secondItem="pVg-Oh-ryu" secondAttribute="top" constant="20" id="K7P-3M-zj3"/>
-                            <constraint firstItem="pVg-Oh-ryu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Bns-Hk-djA" secondAttribute="bottom" constant="20" id="UHD-0E-yfJ"/>
+                            <constraint firstItem="HLb-Bx-Uzg" firstAttribute="trailing" secondItem="pVg-Oh-ryu" secondAttribute="trailing" id="WrR-cY-roE"/>
                             <constraint firstItem="Bns-Hk-djA" firstAttribute="leading" secondItem="pVg-Oh-ryu" secondAttribute="leading" constant="20" id="XGi-b7-F0F"/>
                             <constraint firstItem="pVg-Oh-ryu" firstAttribute="trailing" secondItem="Bns-Hk-djA" secondAttribute="trailing" constant="20" id="f9O-Zo-1Tp"/>
+                            <constraint firstItem="HLb-Bx-Uzg" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bns-Hk-djA" secondAttribute="bottom" constant="398" id="lbE-pN-YbW"/>
+                            <constraint firstItem="HLb-Bx-Uzg" firstAttribute="leading" secondItem="pVg-Oh-ryu" secondAttribute="leading" id="sA9-Ni-8ar"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pVg-Oh-ryu"/>
                     </view>
