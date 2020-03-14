@@ -40,7 +40,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D5J-Gu-Nfm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1088.8" y="16.641679160419791"/>
+            <point key="canvasLocation" x="1031" y="17"/>
         </scene>
         <!--Pill View Controller-->
         <scene sceneID="DXX-UR-E9D">
@@ -233,7 +233,7 @@
                     <connections>
                         <outlet property="doseTextField" destination="5Vy-v5-xLm" id="1wN-KA-PNV"/>
                         <outlet property="endDateTextField" destination="Q2t-Zt-8hv" id="xgW-Zl-fbH"/>
-                        <outlet property="instructionsTextField" destination="Fgd-xe-3mn" id="ZHW-M3-fU4"/>
+                        <outlet property="instructionsTextField" destination="fJg-x9-Tnp" id="g4o-UG-yt4"/>
                         <outlet property="intakeTextField" destination="Ivb-qG-h9n" id="oLC-rF-bRS"/>
                         <outlet property="nameTextField" destination="BGS-8L-Jt8" id="fhG-tz-zu8"/>
                         <outlet property="startDateTextField" destination="Fgd-xe-3mn" id="V5J-8m-NK5"/>

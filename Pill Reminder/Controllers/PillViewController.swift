@@ -22,6 +22,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     
     //MARK:- Properties
+    private var datePicker: UIDatePicker?
     
     var selectedPillType: String?
     var selectedIntake: String?
@@ -29,16 +30,28 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     var pillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
     var intake = ["1 Times a Day", "2 Times a Day", "3 Times a Day", "4 Times a Day"]
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let pickerView1 = createPickerView(textField: typeTextField, tag: 0)
-        let pickerView2 = createPickerView(textField: intakeTextField, tag: 1)
+        // Create PickerViews for a textField
+        createPickerView(for: typeTextField)
+        createPickerView(for: intakeTextField)
         
-        dissmissPickerView(textField: typeTextField)
-        dissmissPickerView(textField: intakeTextField)
+        // Create datePickerView for a textField
+        createDatePicker(for: startDateTextField)
+        createDatePicker(for: endDateTextField)
+        
+        // Add toolbar to textFields
+        dissmissPickerView(for: typeTextField)
+        dissmissPickerView(for: intakeTextField)
+        
+        dissmissPickerView(for: startDateTextField)
+        dissmissPickerView(for: endDateTextField)
+        
+        // Add keyboard done button
+        addDoneButtonOnKeyboard(for: nameTextField)
+        addDoneButtonOnKeyboard(for: instructionsTextField)
+        
         
     }
     
@@ -51,9 +64,9 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     // Number of dropdown items
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == 0 {
+        if typeTextField.isFirstResponder {
             return pillTypes.count
-        } else if pickerView.tag == 1 {
+        } else if intakeTextField.isFirstResponder {
             return intake.count
         }
         
@@ -61,44 +74,39 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
     }
     
-    // Dropdown item
+    // Dropdown items
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == 0 {
+        if typeTextField.isFirstResponder {
             return pillTypes[row]
-        } else if pickerView.tag == 1 {
+        } else if intakeTextField.isFirstResponder {
             return intake[row]
         }
-        
         return ""
     }
     
     // Selected item
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == 0 {
+        if typeTextField.isFirstResponder {
             selectedPillType = pillTypes[row]
             typeTextField.text = selectedPillType
-        } else if pickerView.tag == 1 {
+        } else if intakeTextField.isFirstResponder {
             selectedIntake = intake[row]
             intakeTextField.text = selectedIntake
         }
-        
-        
     }
     
     //MARK:- PickerView own methods
     
-    func createPickerView(textField: UITextField, tag: Int) -> UIPickerView {
+    func createPickerView(for textField: UITextField) {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         textField.inputView = pickerView
-        pickerView.tag = tag
-        return pickerView
     }
     
-    func dissmissPickerView(textField: UITextField) {
+    func dissmissPickerView(for textField: UITextField) {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
-        let button = UIBarButtonItem(title: "done", style: .plain, target: self, action: #selector(self.action))
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
         toolBar.setItems([button], animated: true)
         toolBar.isUserInteractionEnabled = true
         textField.inputAccessoryView = toolBar
@@ -107,6 +115,53 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     @objc func action() {
         view.endEditing(true)
     }
+    
+    //MARK:- Own DatePickerView methods
+    
+    func createDatePicker(for textField: UITextField) {
+        datePicker = UIDatePicker()
+        datePicker?.datePickerMode = .dateAndTime
+        textField.inputView = datePicker
+        datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
+    }
+    
+    @objc func dateChanged(datePicker: UIDatePicker) {
+        //Format date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
+        
+        if startDateTextField.isFirstResponder {
+            self.startDateTextField.text = dateFormatter.string(from: datePicker.date)
+        } else if endDateTextField.isFirstResponder {
+            self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
+        }
+        
+    }
+    
+    //MARK: - Add Keyboard Actions
+    
+    // Add Done button to the keyboard
+    func addDoneButtonOnKeyboard(for textField: UITextField) {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        
+        doneToolbar.barStyle = UIBarStyle.default
+        
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
+        
+        var items = [UIBarButtonItem]()
+        items.append(done)
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        textField.inputAccessoryView = doneToolbar
+    }
+    
+    // Dismiss Keyboard when Done button pressed
+    @objc func doneButtonAction() {
+        nameTextField.resignFirstResponder()
+        instructionsTextField.resignFirstResponder()
+    }
+    
     
     //MARK:- My own methods
     
