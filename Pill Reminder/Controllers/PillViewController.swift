@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     //MARK:- Outlets
     
@@ -60,6 +60,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         // Add keyboard done button
         addDoneButtonOnKeyboard(for: nameTextField)
+        addDoneButtonOnKeyboard(for: doseTextField)
         addDoneButtonOnKeyboard(for: instructionsTextField)
         
         
@@ -179,6 +180,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     // Dismiss Keyboard when Done button pressed
     @objc func doneButtonAction() {
         nameTextField.resignFirstResponder()
+        doseTextField.resignFirstResponder()
         instructionsTextField.resignFirstResponder()
     }
     
