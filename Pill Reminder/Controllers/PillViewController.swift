@@ -19,6 +19,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     @IBOutlet var startDateTextField: UITextField!
     @IBOutlet var endDateTextField: UITextField!
     @IBOutlet var intakeTextField: UITextField!
+    @IBOutlet var colorOrImageTextField: UITextField!
     
     
     //MARK:- Properties
@@ -26,9 +27,16 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     var selectedPillType: String?
     var selectedIntake: String?
+    var selectedColor: UIColor?
+    var selectedColorString: String?
+    
     var pillNames = [String]()
+    var pillInstructions = [String]()
+    
     var pillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
     var intake = ["1 Times a Day", "2 Times a Day", "3 Times a Day", "4 Times a Day"]
+    var pillColors: [(colorName: String, color: UIColor)] = [("Red", .red), ("Orange", .orange), ("Magenta", .magenta)]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +44,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         // Create PickerViews for a textField
         createPickerView(for: typeTextField)
         createPickerView(for: intakeTextField)
+        createPickerView(for: colorOrImageTextField)
         
         // Create datePickerView for a textField
         createDatePicker(for: startDateTextField)
@@ -44,6 +53,7 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         // Add toolbar to textFields
         dissmissPickerView(for: typeTextField)
         dissmissPickerView(for: intakeTextField)
+        dissmissPickerView(for: colorOrImageTextField)
         
         dissmissPickerView(for: startDateTextField)
         dissmissPickerView(for: endDateTextField)
@@ -68,6 +78,8 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             return pillTypes.count
         } else if intakeTextField.isFirstResponder {
             return intake.count
+        } else if colorOrImageTextField.isFirstResponder {
+            return pillColors.count
         }
         
         return 1
@@ -80,6 +92,8 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             return pillTypes[row]
         } else if intakeTextField.isFirstResponder {
             return intake[row]
+        } else if colorOrImageTextField.isFirstResponder {
+            return pillColors[row].colorName
         }
         return ""
     }
@@ -92,6 +106,12 @@ class PillViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         } else if intakeTextField.isFirstResponder {
             selectedIntake = intake[row]
             intakeTextField.text = selectedIntake
+        } else if colorOrImageTextField.isFirstResponder {
+            selectedColorString = pillColors[row].colorName
+            selectedColor = pillColors[row].color
+            
+            colorOrImageTextField.text = selectedColorString
+            colorOrImageTextField.textColor = selectedColor
         }
     }
     

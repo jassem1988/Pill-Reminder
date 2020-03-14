@@ -19,11 +19,22 @@ class HomeViewController: UITableViewController {
     var allPillNames = [String]()
     var allPillDoses = [Int]()
     var allPillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
+    var allPillTimers = [String]()
     var allPillInstructions = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Add title to Nav Controller
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        titleLabel.textColor = UIColor.darkGray
+        titleLabel.text = "Add Pills"
+        titleLabel.textAlignment = .center
+        //titleLabel.backgroundColor = UIColor.cyan
+        titleLabel.font = UIFont(name: "Baskerville-Bold", size: 30)
+        navigationItem.titleView = titleLabel
+        
+        // Register Cell
         self.registerCell()
         
         tableView.reloadData()
@@ -43,6 +54,7 @@ class HomeViewController: UITableViewController {
         }
         
         cell.pillNameCell.text = allPillNames[indexPath.row]
+        cell.instructionsCell.text = allPillInstructions[indexPath.row]
         
         
         return cell
@@ -63,11 +75,14 @@ class HomeViewController: UITableViewController {
         // name controller resulting from a user tapping on Save
         
         if let pillVC = segue.source as? PillViewController {
-            if let pillName = pillVC.nameTextField.text {
-                allPillNames.append(pillName)
-            }
+            guard let pillName = pillVC.nameTextField.text else { return }
+            allPillNames.append(pillName)
             
-            pillVC.pillNames = allPillNames            
+            guard let pillTimer = pillVC.instructionsTextField.text else { return }
+            allPillInstructions.append(pillTimer)
+            
+            pillVC.pillNames = allPillNames
+            pillVC.pillInstructions = allPillInstructions
             tableView.reloadData()
             
         }
