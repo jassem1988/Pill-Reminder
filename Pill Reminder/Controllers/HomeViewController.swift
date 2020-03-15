@@ -84,11 +84,7 @@ class HomeViewController: UITableViewController {
             pillVC.pillNames = allPillNames
             pillVC.pillInstructions = allPillInstructions
             tableView.reloadData()
-            
         }
-        
-        
-        
     }
     
     

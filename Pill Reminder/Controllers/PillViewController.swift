@@ -12,6 +12,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     //MARK:- Outlets
     
+    @IBOutlet var saveButtonOutlet: UIBarButtonItem!
+    
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var doseTextField: UITextField!
     @IBOutlet var typeTextField: UITextField!
@@ -37,9 +39,11 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     var intake = ["1 Times a Day", "2 Times a Day", "3 Times a Day", "4 Times a Day"]
     var pillColors: [(colorName: String, color: UIColor)] = [("Red", .red), ("Orange", .orange), ("Magenta", .magenta)]
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Check if Required TextFields are not Empty
+        checkIfTextFieldIsNotEmpty()
         
         // Create PickerViews for a textField
         createPickerView(for: typeTextField)
@@ -187,16 +191,28 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     //MARK:- My own methods
     
+    func checkIfTextFieldIsNotEmpty() {
+        saveButtonOutlet.isEnabled = false
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        doseTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        guard let nameText = nameTextField.text, let dosageText = doseTextField.text else { return }
+        if !nameText.isEmpty && !dosageText.isEmpty {
+            saveButtonOutlet.isEnabled = true
+            print("works")
+        } else {
+            saveButtonOutlet.isEnabled = false
+            print("Error")
+        }
+    }
+    
+    
+    
     
     
     //MARK:- Button Actions
-    
-    @IBAction func sendReminderButtonPressed(_ sender: UIButton) {
-        
-        
-        
-    }
-    
     
     
 }
