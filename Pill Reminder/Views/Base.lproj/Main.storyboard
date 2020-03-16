@@ -45,7 +45,7 @@
         <scene sceneID="qZd-RY-8xI">
             <objects>
                 <tableViewController id="gwD-mO-YNG" customClass="PillViewController" customModule="Pill_Reminder" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tiD-hL-9QG">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tiD-hL-9QG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -59,13 +59,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter pill name (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dNl-gu-Zh5">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter pill name (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dNl-gu-Zh5">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dNl-gu-Zh5" firstAttribute="centerY" secondItem="YV1-Lq-JcD" secondAttribute="centerY" id="e3A-IS-mmb"/>
+                                                <constraint firstItem="dNl-gu-Zh5" firstAttribute="trailing" secondItem="YV1-Lq-JcD" secondAttribute="trailingMargin" id="lzH-rs-ktA"/>
+                                                <constraint firstItem="dNl-gu-Zh5" firstAttribute="leading" secondItem="YV1-Lq-JcD" secondAttribute="leadingMargin" id="ygY-Zs-7D1"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="xJl-8Y-ydF">
@@ -75,13 +79,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose dosage (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JdU-FN-uWg">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose dosage (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JdU-FN-uWg">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="JdU-FN-uWg" firstAttribute="centerY" secondItem="Yxd-ue-x04" secondAttribute="centerY" id="NcG-a0-4nr"/>
+                                                <constraint firstItem="JdU-FN-uWg" firstAttribute="trailing" secondItem="Yxd-ue-x04" secondAttribute="trailingMargin" id="QTF-DS-MJx"/>
+                                                <constraint firstItem="JdU-FN-uWg" firstAttribute="leading" secondItem="Yxd-ue-x04" secondAttribute="leadingMargin" id="dyh-oV-VKL"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="if4-nz-AkC">
@@ -91,13 +99,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose pill type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Adm-69-KDl">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose pill type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Adm-69-KDl">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Adm-69-KDl" firstAttribute="centerY" secondItem="FxG-g7-sid" secondAttribute="centerY" id="6vl-B0-Abl"/>
+                                                <constraint firstItem="Adm-69-KDl" firstAttribute="leading" secondItem="FxG-g7-sid" secondAttribute="leadingMargin" id="m9i-WN-N2I"/>
+                                                <constraint firstItem="Adm-69-KDl" firstAttribute="trailing" secondItem="FxG-g7-sid" secondAttribute="trailingMargin" id="mkF-qs-x6c"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -111,13 +123,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose start date (required))" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G4c-nO-T1d">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose start date (required))" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G4c-nO-T1d">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="G4c-nO-T1d" firstAttribute="centerY" secondItem="RLg-08-TK8" secondAttribute="centerY" id="4uw-O4-zWD"/>
+                                                <constraint firstItem="G4c-nO-T1d" firstAttribute="trailing" secondItem="RLg-08-TK8" secondAttribute="trailingMargin" id="5uk-zH-ND2"/>
+                                                <constraint firstItem="G4c-nO-T1d" firstAttribute="leading" secondItem="RLg-08-TK8" secondAttribute="leadingMargin" id="Snd-6i-5JN"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ToN-RB-kDd">
@@ -127,13 +143,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose end date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UGB-gs-nRP">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose end date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UGB-gs-nRP">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="UGB-gs-nRP" firstAttribute="trailing" secondItem="J3j-4D-NO5" secondAttribute="trailingMargin" id="B8s-vL-RYR"/>
+                                                <constraint firstItem="UGB-gs-nRP" firstAttribute="leading" secondItem="J3j-4D-NO5" secondAttribute="leadingMargin" id="D0p-CK-HVU"/>
+                                                <constraint firstItem="UGB-gs-nRP" firstAttribute="centerY" secondItem="J3j-4D-NO5" secondAttribute="centerY" id="ckS-Hz-jmM"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6o1-SW-svM">
@@ -143,13 +163,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeats" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nLe-cX-eN7">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeats" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nLe-cX-eN7">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nLe-cX-eN7" firstAttribute="trailing" secondItem="uL3-kz-Q0k" secondAttribute="trailingMargin" id="9C0-Ld-B0J"/>
+                                                <constraint firstItem="nLe-cX-eN7" firstAttribute="leading" secondItem="uL3-kz-Q0k" secondAttribute="leadingMargin" id="9DK-MP-7zG"/>
+                                                <constraint firstItem="nLe-cX-eN7" firstAttribute="centerY" secondItem="uL3-kz-Q0k" secondAttribute="centerY" id="ATs-7K-cIH"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -163,13 +187,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="After meals" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CjE-ti-72W">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="After meals" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CjE-ti-72W">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="CjE-ti-72W" firstAttribute="trailing" secondItem="Q76-bw-DdN" secondAttribute="trailingMargin" id="49Z-qZ-B4J"/>
+                                                <constraint firstItem="CjE-ti-72W" firstAttribute="leading" secondItem="Q76-bw-DdN" secondAttribute="leadingMargin" id="Cyw-oA-2dL"/>
+                                                <constraint firstItem="CjE-ti-72W" firstAttribute="centerY" secondItem="Q76-bw-DdN" secondAttribute="centerY" id="he3-0k-Zbs"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pQn-Nu-pFj">
@@ -179,13 +207,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose pill color" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TGI-0z-C8X">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose pill color" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TGI-0z-C8X">
                                                     <rect key="frame" x="16" y="5" width="343" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TGI-0z-C8X" firstAttribute="leading" secondItem="zdf-Li-wmp" secondAttribute="leadingMargin" id="Jzx-CQ-kMD"/>
+                                                <constraint firstItem="TGI-0z-C8X" firstAttribute="trailing" secondItem="zdf-Li-wmp" secondAttribute="trailingMargin" id="Y7T-GN-g0X"/>
+                                                <constraint firstItem="TGI-0z-C8X" firstAttribute="centerY" secondItem="zdf-Li-wmp" secondAttribute="centerY" id="cld-4a-FpS"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>

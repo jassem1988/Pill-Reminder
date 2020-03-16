@@ -129,7 +129,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     }
     
     func dissmissPickerView(for textField: UITextField) {
-        let toolBar = UIToolbar()
+        let toolBar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
         toolBar.sizeToFit()
         let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
         toolBar.setItems([button], animated: true)
@@ -201,10 +201,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         guard let nameText = nameTextField.text, let dosageText = doseTextField.text else { return }
         if !nameText.isEmpty && !dosageText.isEmpty {
             saveButtonOutlet.isEnabled = true
-            print("works")
         } else {
             saveButtonOutlet.isEnabled = false
-            print("Error")
         }
     }
     

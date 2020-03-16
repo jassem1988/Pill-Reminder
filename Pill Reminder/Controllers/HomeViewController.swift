@@ -30,7 +30,6 @@ class HomeViewController: UITableViewController {
         titleLabel.textColor = UIColor.darkGray
         titleLabel.text = "Add Pills"
         titleLabel.textAlignment = .center
-        //titleLabel.backgroundColor = UIColor.cyan
         titleLabel.font = UIFont(name: "Baskerville-Bold", size: 30)
         navigationItem.titleView = titleLabel
         
