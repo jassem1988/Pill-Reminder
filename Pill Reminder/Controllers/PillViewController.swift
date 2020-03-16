@@ -32,6 +32,12 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     var selectedColor: UIColor?
     var selectedColorString: String?
     
+    //Date and Time
+    var userSelectedDateStart: String?
+    var userSelectedDateEnd: String?
+    var userSelectedTimeStart: String?
+    var userSelectedTimeEnd: String?
+    
     var pillNames = [String]()
     var pillInstructions = [String]()
     
@@ -157,8 +163,17 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         
         if startDateTextField.isFirstResponder {
             self.startDateTextField.text = dateFormatter.string(from: datePicker.date)
+            
+            userSelectedTimeStart = "\(getCalenderComponents(from: datePicker).hour): \(getCalenderComponents(from: datePicker).minute)"
+            
+            userSelectedDateStart = "\(getCalenderComponents(from: datePicker).day)/ \(getCalenderComponents(from: datePicker).month)/ \(getCalenderComponents(from: datePicker).year)"
+            
         } else if endDateTextField.isFirstResponder {
             self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
+            
+            userSelectedTimeEnd = "\(getCalenderComponents(from: datePicker).hour): \(getCalenderComponents(from: datePicker).minute)"
+            
+            userSelectedDateEnd = "\(getCalenderComponents(from: datePicker).day)/ \(getCalenderComponents(from: datePicker).month)/ \(getCalenderComponents(from: datePicker).year)"
         }
         
     }
@@ -206,9 +221,18 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         }
     }
     
-    
-    
-    
+    func getCalenderComponents(from datePicker: UIDatePicker) -> (year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+        
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
+        
+        if let year = components.year, let month = components.month, let day = components.day, let hour = components.hour, let minute = components.minute {
+            
+            return (year, month, day, hour, minute)
+        }
+        
+        return (0,0,0,0,0)
+        
+    }
     
     //MARK:- Button Actions
     
