@@ -92,9 +92,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         } else if colorOrImageTextField.isFirstResponder {
             return pillColors.count
         }
-        
         return 1
-        
     }
     
     // Dropdown items
@@ -162,18 +160,23 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
         
         if startDateTextField.isFirstResponder {
+            
             self.startDateTextField.text = dateFormatter.string(from: datePicker.date)
             
-            userSelectedTimeStart = "\(getCalenderComponents(from: datePicker).hour): \(getCalenderComponents(from: datePicker).minute)"
+            guard let startTimeText = self.startDateTextField.text else { return }
             
-            userSelectedDateStart = "\(getCalenderComponents(from: datePicker).day)/ \(getCalenderComponents(from: datePicker).month)/ \(getCalenderComponents(from: datePicker).year)"
+            // Create time and date substring
+            userSelectedTimeStart = self.createSubstring(for: startTimeText).time
+            userSelectedDateStart = self.createSubstring(for: startTimeText).date
             
         } else if endDateTextField.isFirstResponder {
             self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
             
-            userSelectedTimeEnd = "\(getCalenderComponents(from: datePicker).hour): \(getCalenderComponents(from: datePicker).minute)"
+            guard let endTimeText = self.endDateTextField.text else { return }
             
-            userSelectedDateEnd = "\(getCalenderComponents(from: datePicker).day)/ \(getCalenderComponents(from: datePicker).month)/ \(getCalenderComponents(from: datePicker).year)"
+            // Create time and date substring
+            userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
+            userSelectedDateEnd = self.createSubstring(for: endTimeText).date
         }
         
     }
@@ -210,6 +213,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         saveButtonOutlet.isEnabled = false
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         doseTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        startDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -221,20 +225,35 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         }
     }
     
-    func getCalenderComponents(from datePicker: UIDatePicker) -> (year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+    func createSubstring(for dateFullString: String) -> (time: String, date: String) {
+        let timeString = String(dateFullString.suffix(8))
+        let dateString = String(dateFullString.prefix(12))
         
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
-        
-        if let year = components.year, let month = components.month, let day = components.day, let hour = components.hour, let minute = components.minute {
-            
-            return (year, month, day, hour, minute)
-        }
-        
-        return (0,0,0,0,0)
-        
+        return (timeString, dateString)
     }
     
-    //MARK:- Button Actions
+    //MARK:- Segue Actions
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let destVC = segue.destination as? HomeViewController {
+            // Send pill names to HomeVC
+            guard let nameText = nameTextField.text else { return }
+            destVC.allPillNames.append(nameText)
+            
+            // Send pill info to HomeVC
+            guard let infoText = instructionsTextField.text else { return }
+            destVC.allPillInstructions.append(infoText)
+            
+            // Send pill timer to HomeVC
+            guard let userTimerStart = userSelectedTimeStart else { return }
+            destVC.allPillTimers.append(userTimerStart)
+            
+            // Send pill color to HomeVC
+            guard let pillColor = colorOrImageTextField.textColor else { return }
+            destVC.allPillColors.append(pillColor)
+        }
+    }
     
     
 }

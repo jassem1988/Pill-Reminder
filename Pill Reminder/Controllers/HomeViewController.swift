@@ -21,6 +21,12 @@ class HomeViewController: UITableViewController {
     var allPillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
     var allPillTimers = [String]()
     var allPillInstructions = [String]()
+    var allPillColors = [UIColor]()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //reload table rows
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +42,6 @@ class HomeViewController: UITableViewController {
         // Register Cell
         self.registerCell()
         
-        tableView.reloadData()
         
     }
     
@@ -54,7 +59,8 @@ class HomeViewController: UITableViewController {
         
         cell.pillNameCell.text = allPillNames[indexPath.row]
         cell.instructionsCell.text = allPillInstructions[indexPath.row]
-        
+        cell.pillTimerCell.text = allPillTimers[indexPath.row]
+        cell.pillImageView.backgroundColor = allPillColors[indexPath.row]
         
         return cell
     }
@@ -72,18 +78,6 @@ class HomeViewController: UITableViewController {
     @IBAction func saveButtonPressed(segue: UIStoryboardSegue) {
         // add logic here to handle a transition back from the
         // name controller resulting from a user tapping on Save
-        
-        if let pillVC = segue.source as? PillViewController {
-            guard let pillName = pillVC.nameTextField.text else { return }
-            allPillNames.append(pillName)
-            
-            guard let pillTimer = pillVC.instructionsTextField.text else { return }
-            allPillInstructions.append(pillTimer)
-            
-            pillVC.pillNames = allPillNames
-            pillVC.pillInstructions = allPillInstructions
-            tableView.reloadData()
-        }
     }
     
     
