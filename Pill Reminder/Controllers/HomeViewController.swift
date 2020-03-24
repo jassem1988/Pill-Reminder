@@ -11,17 +11,8 @@ import UIKit
 class HomeViewController: UITableViewController {
     
     //Properties
-    
-    var selectedIndexPath: IndexPath?
-    
-    let items = [Int](1...10)
-    
-    var allPillNames = [String]()
-    var allPillDoses = [Int]()
-    var allPillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
-    var allPillTimers = [String]()
-    var allPillInstructions = [String]()
-    var allPillColors = [UIColor]()
+    // All Pills array
+    var pillsArray = [Pill]()
     
     override func viewWillAppear(_ animated: Bool) {
         //reload table rows
@@ -48,7 +39,7 @@ class HomeViewController: UITableViewController {
     //MARK:- TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allPillNames.count
+        return pillsArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,10 +48,10 @@ class HomeViewController: UITableViewController {
             fatalError("Could not register cell with identifier ReminderCell")
         }
         
-        cell.pillNameCell.text = allPillNames[indexPath.row]
-        cell.instructionsCell.text = allPillInstructions[indexPath.row]
-        cell.pillTimerCell.text = allPillTimers[indexPath.row]
-        cell.pillImageView.backgroundColor = allPillColors[indexPath.row]
+        cell.pillNameCell.text = pillsArray[indexPath.row].pillNames
+        cell.instructionsCell.text = pillsArray[indexPath.row].pillInstructions
+        cell.pillTimerCell.text = pillsArray[indexPath.row].pillStartTimer
+        cell.pillImageView.backgroundColor = pillsArray[indexPath.row].pillColor
         
         return cell
     }
