@@ -44,6 +44,7 @@ class HomeViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        // Create Cell
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell", for: indexPath) as? PillTableViewCell else {
             fatalError("Could not register cell with identifier ReminderCell")
         }
@@ -53,7 +54,28 @@ class HomeViewController: UITableViewController {
         cell.pillTimerCell.text = pillsArray[indexPath.row].pillStartTimer
         cell.pillImageView.backgroundColor = pillsArray[indexPath.row].pillColor
         
+        // Add color to pill taken img
+        if pillsArray[indexPath.row].pillTaken == true {
+            cell.doneImageView.backgroundColor = .green
+        } else {
+            cell.doneImageView.backgroundColor = .red
+        }
+        
         return cell
+    }
+    
+    //MARK:- TableView Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Toggle pill taken when selected
+        pillsArray[indexPath.row].pillTaken = !pillsArray[indexPath.row].pillTaken
+        
+        // Force data source metheds to reload
+        tableView.reloadData()
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     

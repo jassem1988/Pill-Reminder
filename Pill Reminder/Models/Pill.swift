@@ -12,6 +12,7 @@ import UIKit
 class Pill {
     
     // Selected options
+    var pillTaken = false
     var selectedPillType: String?
     var selectedIntake: String?
     var selectedColor: UIColor?
