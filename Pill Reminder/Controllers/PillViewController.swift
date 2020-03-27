@@ -27,23 +27,10 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     //MARK:- Properties
 
     
-    // Create new pill Object
+    // Create a new pill Object
     let pill = Pill()
-    
+        
     private var datePicker: UIDatePicker?
-    
-    var selectedPillType: String?
-    var selectedIntake: String?
-    var selectedColor: UIColor?
-    var selectedColorString: String?
-    
-    // Date and Time
-    var userSelectedDateStart: String?
-    var userSelectedDateEnd: String?
-    var userSelectedTimeStart: String?
-    var userSelectedTimeEnd: String?
-    
-   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,17 +97,17 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Selected item
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if typeTextField.isFirstResponder {
-            selectedPillType = pill.pillTypes[row]
-            typeTextField.text = selectedPillType
+            pill.selectedPillType = pill.pillTypes[row]
+            typeTextField.text = pill.selectedPillType
         } else if intakeTextField.isFirstResponder {
-            selectedIntake = pill.intake[row]
-            intakeTextField.text = selectedIntake
+            pill.selectedIntake = pill.intake[row]
+            intakeTextField.text = pill.selectedIntake
         } else if colorOrImageTextField.isFirstResponder {
-            selectedColorString = pill.pillColors[row].colorName
-            selectedColor = pill.pillColors[row].color
+            pill.selectedColorString = pill.pillColors[row].colorName
+            pill.selectedColor = pill.pillColors[row].color
             
-            colorOrImageTextField.text = selectedColorString
-            colorOrImageTextField.textColor = selectedColor
+            colorOrImageTextField.text = pill.selectedColorString
+            colorOrImageTextField.textColor = pill.selectedColor
         }
     }
     
@@ -166,8 +153,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             guard let startTimeText = self.startDateTextField.text else { return }
             
             // Create time and date substring
-            userSelectedTimeStart = self.createSubstring(for: startTimeText).time
-            userSelectedDateStart = self.createSubstring(for: startTimeText).date
+            pill.userSelectedTimeStart = self.createSubstring(for: startTimeText).time
+            pill.userSelectedDateStart = self.createSubstring(for: startTimeText).date
             
         } else if endDateTextField.isFirstResponder {
             self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
@@ -175,8 +162,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             guard let endTimeText = self.endDateTextField.text else { return }
             
             // Create time and date substring
-            userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
-            userSelectedDateEnd = self.createSubstring(for: endTimeText).date
+            pill.userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
+            pill.userSelectedDateEnd = self.createSubstring(for: endTimeText).date
         }
         
     }
@@ -246,7 +233,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             pill.pillInstructions = infoText
             
             // Send pill timer to HomeVC
-            guard let userTimerStart = userSelectedTimeStart else { return }
+            guard let userTimerStart = pill.userSelectedTimeStart else { return }
             pill.pillStartTimer = userTimerStart
             
             // Send pill color to HomeVC
