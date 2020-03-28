@@ -49,17 +49,16 @@ class HomeViewController: UITableViewController {
             fatalError("Could not register cell with identifier ReminderCell")
         }
         
-        cell.pillNameCell.text = pillsArray[indexPath.row].pillNames
-        cell.instructionsCell.text = pillsArray[indexPath.row].pillInstructions
-        cell.pillTimerCell.text = pillsArray[indexPath.row].pillStartTimer
-        cell.pillImageView.backgroundColor = pillsArray[indexPath.row].pillColor
+        let singlePill = pillsArray[indexPath.row]
         
-        // Add color to pill taken img
-        if pillsArray[indexPath.row].pillTaken == true {
-            cell.doneImageView.backgroundColor = .green
-        } else {
-            cell.doneImageView.backgroundColor = .red
-        }
+        cell.pillNameCell.text = singlePill.pillNames
+        cell.instructionsCell.text = singlePill.pillInstructions
+        cell.pillTimerCell.text = singlePill.pillStartTimer
+        cell.pillImageView.backgroundColor = singlePill.pillColor
+        
+        // Add color to pill taken img (ternary operation)
+        
+        cell.doneImageView.backgroundColor = singlePill.pillTaken ? .green : .red
         
         return cell
     }

@@ -26,7 +26,6 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     //MARK:- Properties
 
-    
     // Create a new pill Object
     let pill = Pill()
         
@@ -61,6 +60,12 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         addDoneButtonOnKeyboard(for: instructionsTextField)
         
         
+    }
+    
+    //MARK: - TableView Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     //MARK:- UIPickerView data source and delegate methods
@@ -200,12 +205,12 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         saveButtonOutlet.isEnabled = false
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         doseTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        startDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        startDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .valueChanged)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        guard let nameText = nameTextField.text, let dosageText = doseTextField.text else { return }
-        if !nameText.isEmpty && !dosageText.isEmpty {
+        guard let nameText = nameTextField.text, let dosageText = doseTextField.text, let startDateText = startDateTextField.text else { return }
+        if !nameText.isEmpty && !dosageText.isEmpty && !startDateText.isEmpty {
             saveButtonOutlet.isEnabled = true
         } else {
             saveButtonOutlet.isEnabled = false
@@ -233,7 +238,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             pill.pillInstructions = infoText
             
             // Send pill timer to HomeVC
-            guard let userTimerStart = pill.userSelectedTimeStart else { return }
+            guard let userTimerStart = startDateTextField.text else { return }
             pill.pillStartTimer = userTimerStart
             
             // Send pill color to HomeVC
