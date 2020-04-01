@@ -25,10 +25,12 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     
     //MARK:- Properties
-
+    
     // Create a new pill Object
     let pill = Pill()
-        
+    
+    let defaults = UserDefaults.standard
+    
     private var datePicker: UIDatePicker?
     
     override func viewDidLoad() {
@@ -78,11 +80,11 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Number of dropdown items
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if typeTextField.isFirstResponder {
-            return pill.pillTypes.count
+            return Pill.pillTypes.count
         } else if intakeTextField.isFirstResponder {
-            return pill.intake.count
+            return Pill.intake.count
         } else if colorOrImageTextField.isFirstResponder {
-            return pill.pillColors.count
+            return Pill.pillColors.count
         }
         return 1
     }
@@ -90,11 +92,11 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Dropdown items
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if typeTextField.isFirstResponder {
-            return pill.pillTypes[row]
+            return Pill.pillTypes[row]
         } else if intakeTextField.isFirstResponder {
-            return pill.intake[row]
+            return Pill.intake[row]
         } else if colorOrImageTextField.isFirstResponder {
-            return pill.pillColors[row].colorName
+            return Pill.pillColors[row].colorName
         }
         return ""
     }
@@ -102,17 +104,17 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Selected item
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if typeTextField.isFirstResponder {
-            pill.selectedPillType = pill.pillTypes[row]
+            pill.selectedPillType = Pill.pillTypes[row]
             typeTextField.text = pill.selectedPillType
         } else if intakeTextField.isFirstResponder {
-            pill.selectedIntake = pill.intake[row]
+            pill.selectedIntake = Pill.intake[row]
             intakeTextField.text = pill.selectedIntake
         } else if colorOrImageTextField.isFirstResponder {
-            pill.selectedColorString = pill.pillColors[row].colorName
-            pill.selectedColor = pill.pillColors[row].color
-            
-            colorOrImageTextField.text = pill.selectedColorString
-            colorOrImageTextField.textColor = pill.selectedColor
+//            pill.selectedColorString = Pill.pillColors[row].colorName
+//            pill.selectedColor = Pill.pillColors[row].color
+//            
+//            colorOrImageTextField.text = pill.selectedColorString
+//            colorOrImageTextField.textColor = pill.selectedColor
         }
     }
     
@@ -205,7 +207,9 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         saveButtonOutlet.isEnabled = false
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         doseTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        startDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .valueChanged)
+        startDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
+        
+        tableView.reloadData()
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -219,7 +223,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     func createSubstring(for dateFullString: String) -> (time: String, date: String) {
         let timeString = String(dateFullString.suffix(8))
-        let dateString = String(dateFullString.prefix(12))
+        let dateString = String(dateFullString.prefix(11))
         
         return (timeString, dateString)
     }
@@ -231,24 +235,42 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         if let destVC = segue.destination as? HomeViewController {
             // Send pill names to HomeVC
             guard let nameText = nameTextField.text else { return }
-            pill.pillNames = nameText
+            pill.pillName = nameText
             
             // Send pill info to HomeVC
             guard let infoText = instructionsTextField.text else { return }
-            pill.pillInstructions = infoText
+            pill.pillInstruction = infoText
             
             // Send pill timer to HomeVC
             guard let userTimerStart = startDateTextField.text else { return }
             pill.pillStartTimer = userTimerStart
             
             // Send pill color to HomeVC
-            guard let pillColor = colorOrImageTextField.textColor else { return }
-            pill.pillColor = pillColor
+//            guard let pillColor = colorOrImageTextField.textColor else { return }
+//            pill.pillColor = pillColor
             
             // Append new pill to pill array
             destVC.pillsArray.append(pill)
+            
+            // Save pills in custom plist
+            savePills(from: destVC)
+                        
         }
     }
     
+    //MARK:- Model Manupulation Methods
+    
+    func savePills(from destVC : HomeViewController) {
+         //Retrieve data custom plist
+         let encoder = PropertyListEncoder()
+         do {
+             let data = try encoder.encode(destVC.pillsArray)
+             try data.write(to: destVC.dataFilePath!)
+             
+         } catch {
+             print("Error encoding item Array, \(error)")
+         }
+
+    }
     
 }
