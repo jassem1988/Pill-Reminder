@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Pill" representedClassName=".Pill" syncable="YES" codeGenerationType="class">
+        <attribute name="pillInstruction" optional="YES" attributeType="String"/>
+        <attribute name="pillName" attributeType="String"/>
+        <attribute name="pillStartTimer" optional="YES" attributeType="String"/>
+        <attribute name="pillTaken" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="selectedIntake" optional="YES" attributeType="String"/>
+        <attribute name="selectedPillType" optional="YES" attributeType="String"/>
+        <attribute name="userSelectedDateEnd" optional="YES" attributeType="String"/>
+        <attribute name="userSelectedDateStart" optional="YES" attributeType="String"/>
+        <attribute name="userSelectedTimeEnd" optional="YES" attributeType="String"/>
+        <attribute name="userSelectedTimeStart" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Pill" positionX="-63" positionY="-18" width="128" height="193"/>
+    </elements>
+</model>

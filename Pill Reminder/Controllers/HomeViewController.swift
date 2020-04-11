@@ -7,16 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeViewController: UITableViewController {
     
     //MARK:- Properties
     
-    // Find user directory path
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Pills.plist")
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // All Pills array
-    var pillsArray = [Pill]()
+    var pillsArray: [Pill] = []
     
     override func viewWillAppear(_ animated: Bool) {
         //reload table rows
@@ -26,7 +26,10 @@ class HomeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(dataFilePath)
+        // Find user directory path for Core Data
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+
+        print(dataFilePath)
         
         
         // Test Data
@@ -71,10 +74,9 @@ class HomeViewController: UITableViewController {
 //        pillsArray.append(pillEight)
 //
         
-        //Save pillsArray in UserDefaults
-//        if let pills = defaults.array(forKey: "Pills Reminders") as? [Pill] {
-//            pillsArray = pills
-//        }
+
+        // Load pillsArray
+//        loadPills()
         
         // Add title to Nav Controller
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
@@ -137,7 +139,7 @@ class HomeViewController: UITableViewController {
         // Toggle pill taken when selected
         pillsArray[indexPath.row].pillTaken = !pillsArray[indexPath.row].pillTaken
         
-        savePillsTaken()
+//        savePillsTaken() 
         
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -154,25 +156,38 @@ class HomeViewController: UITableViewController {
     //MARK:- Actions and Segue Methods
     
     @IBAction func saveButtonPressed(segue: UIStoryboardSegue) {
-        // add logic here to handle a transition back from the
-        // name controller resulting from a user tapping on Save
-    }
-    
-    func savePillsTaken() {
-         //Retrieve data custom plist
-         let encoder = PropertyListEncoder()
-         do {
-             let data = try encoder.encode(pillsArray)
-             try data.write(to: dataFilePath!)
-             
-         } catch {
-             print("Error encoding item Array, \(error)")
-         }
-        
-        // Force data source metheds to reload
-        tableView.reloadData()
+       
 
     }
+
+    
+//    func savePillsTaken() {
+//         // Save data to custom plist
+//         let encoder = PropertyListEncoder()
+//         do {
+//             let data = try encoder.encode(pillsArray)
+//             try data.write(to: dataFilePath!)
+//
+//         } catch {
+//             print("Error encoding pills Array, \(error)")
+//         }
+//
+//        // Force data source metheds to reload
+//        tableView.reloadData()
+//
+//    }
+    
+//    func loadPills() {
+//        if let data = try? Data(contentsOf: dataFilePath!) {
+//            let decoder = PropertyListDecoder()
+//            do {
+//                pillsArray = try decoder.decode([Pill].self, from: data)
+//            } catch {
+//                print("Error decoding pills array \(error)")
+//            }
+//
+//        }
+//    }
     
     
 }

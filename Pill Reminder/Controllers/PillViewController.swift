@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -26,10 +27,22 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     //MARK:- Properties
     
-    // Create a new pill Object
-    let pill = Pill()
+    // Selected options
+    var selectedPillType: String?
+    var selectedIntake: String?
     
-    let defaults = UserDefaults.standard
+    var userSelectedTimeStart: String?
+    var userSelectedDateStart: String?
+    var userSelectedTimeEnd: String?
+    var userSelectedDateEnd: String?
+     
+    // Static options
+    var pillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
+    var intake = ["1 Times a Day", "2 Times a Day", "3 Times a Day", "4 Times a Day"]
+    var pillColors : [(colorName: String, color: UIColor)] = [("Red", .red), ("Orange", .orange), ("Magenta", .magenta)]
+    
+    // Create a new pill NSManagedObject
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private var datePicker: UIDatePicker?
     
@@ -80,11 +93,11 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Number of dropdown items
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if typeTextField.isFirstResponder {
-            return Pill.pillTypes.count
+            return pillTypes.count
         } else if intakeTextField.isFirstResponder {
-            return Pill.intake.count
+            return intake.count
         } else if colorOrImageTextField.isFirstResponder {
-            return Pill.pillColors.count
+            return pillColors.count
         }
         return 1
     }
@@ -92,11 +105,11 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Dropdown items
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if typeTextField.isFirstResponder {
-            return Pill.pillTypes[row]
+            return pillTypes[row]
         } else if intakeTextField.isFirstResponder {
-            return Pill.intake[row]
+            return intake[row]
         } else if colorOrImageTextField.isFirstResponder {
-            return Pill.pillColors[row].colorName
+            return pillColors[row].colorName
         }
         return ""
     }
@@ -104,17 +117,17 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     // Selected item
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if typeTextField.isFirstResponder {
-            pill.selectedPillType = Pill.pillTypes[row]
-            typeTextField.text = pill.selectedPillType
+            selectedPillType = pillTypes[row]
+            typeTextField.text = selectedPillType
         } else if intakeTextField.isFirstResponder {
-            pill.selectedIntake = Pill.intake[row]
-            intakeTextField.text = pill.selectedIntake
+            selectedIntake = intake[row]
+            intakeTextField.text = selectedIntake
         } else if colorOrImageTextField.isFirstResponder {
-//            pill.selectedColorString = Pill.pillColors[row].colorName
-//            pill.selectedColor = Pill.pillColors[row].color
-//            
-//            colorOrImageTextField.text = pill.selectedColorString
-//            colorOrImageTextField.textColor = pill.selectedColor
+            //            pill.selectedColorString = Pill.pillColors[row].colorName
+            //            pill.selectedColor = Pill.pillColors[row].color
+            //
+            //            colorOrImageTextField.text = pill.selectedColorString
+            //            colorOrImageTextField.textColor = pill.selectedColor
         }
     }
     
@@ -149,6 +162,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     }
     
     @objc func dateChanged(datePicker: UIDatePicker) {
+        
         // Format date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
@@ -160,8 +174,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             guard let startTimeText = self.startDateTextField.text else { return }
             
             // Create time and date substring
-            pill.userSelectedTimeStart = self.createSubstring(for: startTimeText).time
-            pill.userSelectedDateStart = self.createSubstring(for: startTimeText).date
+            userSelectedTimeStart = self.createSubstring(for: startTimeText).time
+            userSelectedDateStart = self.createSubstring(for: startTimeText).date
             
         } else if endDateTextField.isFirstResponder {
             self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
@@ -169,8 +183,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             guard let endTimeText = self.endDateTextField.text else { return }
             
             // Create time and date substring
-            pill.userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
-            pill.userSelectedDateEnd = self.createSubstring(for: endTimeText).date
+            userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
+            userSelectedDateEnd = self.createSubstring(for: endTimeText).date
         }
         
     }
@@ -223,7 +237,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     func createSubstring(for dateFullString: String) -> (time: String, date: String) {
         let timeString = String(dateFullString.suffix(8))
-        let dateString = String(dateFullString.prefix(11))
+        let dateString = String(dateFullString.prefix(12))
         
         return (timeString, dateString)
     }
@@ -232,7 +246,21 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        
+        let pill = Pill(context: context)
+        
+        // Set pill taken
+        pill.pillTaken = false
+        
+        pill.selectedPillType = selectedPillType
+        pill.selectedIntake = selectedIntake
+        pill.userSelectedTimeStart = userSelectedTimeStart
+        pill.userSelectedDateStart = userSelectedDateStart
+        pill.userSelectedTimeEnd = userSelectedTimeEnd
+        pill.userSelectedDateEnd = userSelectedDateEnd
+        
         if let destVC = segue.destination as? HomeViewController {
+            
             // Send pill names to HomeVC
             guard let nameText = nameTextField.text else { return }
             pill.pillName = nameText
@@ -246,31 +274,32 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             pill.pillStartTimer = userTimerStart
             
             // Send pill color to HomeVC
-//            guard let pillColor = colorOrImageTextField.textColor else { return }
-//            pill.pillColor = pillColor
+            //            guard let pillColor = colorOrImageTextField.textColor else { return }
+            //            pill.pillColor = pillColor
             
             // Append new pill to pill array
             destVC.pillsArray.append(pill)
             
             // Save pills in custom plist
-            savePills(from: destVC)
-                        
+            savePills()
+            
         }
+        
     }
     
     //MARK:- Model Manupulation Methods
     
-    func savePills(from destVC : HomeViewController) {
-         //Retrieve data custom plist
-         let encoder = PropertyListEncoder()
-         do {
-             let data = try encoder.encode(destVC.pillsArray)
-             try data.write(to: destVC.dataFilePath!)
-             
-         } catch {
-             print("Error encoding item Array, \(error)")
-         }
-
+    func savePills() {
+        //Save data to Core Data
+        
+        do {
+            try context.save()
+            
+        } catch {
+            print("Error Saving context!!")
+            print(error)
+        }
+        
     }
     
 }
