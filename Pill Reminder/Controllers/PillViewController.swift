@@ -49,6 +49,9 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set the interface color of User
+        overrideUserInterfaceStyle = .light
+        
         // Check if Required TextFields are not Empty
         checkIfTextFieldIsNotEmpty()
         
@@ -296,8 +299,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             try context.save()
             
         } catch {
-            print("Error Saving context!!")
-            print(error)
+            print("Error Saving context, \(error)")
         }
         
     }

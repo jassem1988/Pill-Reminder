@@ -13,7 +13,7 @@ class HomeViewController: UITableViewController {
     
     //MARK:- Properties
     
-//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // All Pills array
     var pillsArray: [Pill] = []
@@ -26,61 +26,20 @@ class HomeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set the interface color of User
+        overrideUserInterfaceStyle = .light
+        
         // Find user directory path for Core Data
         let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-
+        
         print(dataFilePath)
         
-        
-        // Test Data
-//        let pillOne = Pill()
-//        pillOne.pillNames = "Advil"
-//        pillOne.pillStartTimer = "2019"
-//        pillsArray.append(pillOne)
-//
-//        let pillTwo = Pill()
-//        pillTwo.pillNames = "panadol"
-//        pillTwo.pillStartTimer = "2019"
-//        pillsArray.append(pillTwo)
-//
-//        let pillThree = Pill()
-//        pillThree.pillNames = "Jass pill"
-//        pillThree.pillStartTimer = "2019"
-//        pillsArray.append(pillThree)
-//
-//        let pillFour = Pill()
-//        pillFour.pillNames = "Advil"
-//        pillFour.pillStartTimer = "2019"
-//        pillsArray.append(pillFour)
-//
-//        let pillFive = Pill()
-//        pillFive.pillNames = "Advil"
-//        pillFive.pillStartTimer = "2019"
-//        pillsArray.append(pillFive)
-//
-//        let pillSix = Pill()
-//        pillSix.pillNames = "Advil"
-//        pillSix.pillStartTimer = "2019"
-//        pillsArray.append(pillSix)
-//
-//        let pillSeven = Pill()
-//        pillSeven.pillNames = "Advil"
-//        pillSeven.pillStartTimer = "2019"
-//        pillsArray.append(pillSeven)
-//
-//        let pillEight = Pill()
-//        pillEight.pillNames = "Advil"
-//        pillEight.pillStartTimer = "2019"
-//        pillsArray.append(pillEight)
-//
-        
-
         // Load pillsArray
-//        loadPills()
+        loadPills()
         
         // Add title to Nav Controller
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        titleLabel.textColor = UIColor.darkGray
+//        titleLabel.textColor = UIColor.lightGray
         titleLabel.text = "Add Pills"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont(name: "Baskerville-Bold", size: 30)
@@ -123,7 +82,7 @@ class HomeViewController: UITableViewController {
         cell.pillNameCell.text = singlePill.pillName
         cell.instructionsCell.text = singlePill.pillInstruction
         cell.pillTimerCell.text = singlePill.pillStartTimer
-//        cell.pillImageView.backgroundColor = singlePill.pillColor
+        //        cell.pillImageView.backgroundColor = singlePill.pillColor
         
         // Add color to pill taken img (ternary operation)
         
@@ -136,12 +95,68 @@ class HomeViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // Toggle pill taken when selected
-        pillsArray[indexPath.row].pillTaken = !pillsArray[indexPath.row].pillTaken
+        // Delete pill from context and tableView
+        //        context.delete(pillsArray[indexPath.row])
+        //        pillsArray.remove(at: indexPath.row)
         
-//        savePillsTaken() 
+        // Toggle pill taken when selected
+//        pillsArray[indexPath.row].pillTaken = !pillsArray[indexPath.row].pillTaken
+        
+        savePillsTaken()
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
+    
+    
+    // Left Swipe Actions
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        // Write action code for deleting a Pill
+        let pillTakenAction = UIContextualAction(style: .normal, title: "Done") { (UIContextualAction, UIView, boolValue) in
+            
+            // Toggle pill taken when selected
+            self.pillsArray[indexPath.row].pillTaken = !self.pillsArray[indexPath.row].pillTaken
+            
+            self.savePillsTaken()
+            
+            boolValue(true)
+        }
+        
+        pillTakenAction.backgroundColor = .green
+        
+        let editPillAction = UIContextualAction(style: .normal, title: "Edit") { (UIContextualAction, UIView, boolValue) in
+            print("Edit pill")
+            boolValue(true)
+        }
+        editPillAction.backgroundColor = .gray
+        
+        let actionSwipes = UISwipeActionsConfiguration(actions: [pillTakenAction, editPillAction])
+        
+        return actionSwipes
+        
+    }
+    
+    // Right Swipe Action
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        // Write action code for deleting a Pill
+        let trashAction = UIContextualAction(style: .normal, title: "Delete") { (UIContextualAction, UIView, boolValue) in
+            
+            // Delete Pill from context and tableView
+            self.context.delete(self.pillsArray[indexPath.row])
+            self.pillsArray.remove(at: indexPath.row)
+            
+            self.savePillsTaken()
+            
+            boolValue(true)
+        }
+        
+        trashAction.backgroundColor = .red
+        
+        let actionSwipes = UISwipeActionsConfiguration(actions: [trashAction])
+        
+        return actionSwipes
         
     }
     
@@ -156,38 +171,31 @@ class HomeViewController: UITableViewController {
     //MARK:- Actions and Segue Methods
     
     @IBAction func saveButtonPressed(segue: UIStoryboardSegue) {
-       
-
+        
+        
     }
-
     
-//    func savePillsTaken() {
-//         // Save data to custom plist
-//         let encoder = PropertyListEncoder()
-//         do {
-//             let data = try encoder.encode(pillsArray)
-//             try data.write(to: dataFilePath!)
-//
-//         } catch {
-//             print("Error encoding pills Array, \(error)")
-//         }
-//
-//        // Force data source metheds to reload
-//        tableView.reloadData()
-//
-//    }
     
-//    func loadPills() {
-//        if let data = try? Data(contentsOf: dataFilePath!) {
-//            let decoder = PropertyListDecoder()
-//            do {
-//                pillsArray = try decoder.decode([Pill].self, from: data)
-//            } catch {
-//                print("Error decoding pills array \(error)")
-//            }
-//
-//        }
-//    }
+    func savePillsTaken() {
+        do {
+            try context.save()
+        } catch {
+            
+            print("Error saving pillsTaken in context, \(error)")
+        }
+        
+        tableView.reloadData()
+        
+    }
+    
+    func loadPills() {
+        let request : NSFetchRequest<Pill> = Pill.fetchRequest()
+        do {
+            pillsArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+    }
     
     
 }
