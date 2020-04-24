@@ -6,11 +6,11 @@
         <attribute name="pillStartTimer" optional="YES" attributeType="String"/>
         <attribute name="pillTaken" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="selectedIntake" optional="YES" attributeType="String"/>
+        <attribute name="selectedNotificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="selectedPillType" optional="YES" attributeType="String"/>
-        <attribute name="userSelectedDateEnd" optional="YES" attributeType="String"/>
         <attribute name="userSelectedDateStart" optional="YES" attributeType="String"/>
-        <attribute name="userSelectedTimeEnd" optional="YES" attributeType="String"/>
         <attribute name="userSelectedTimeStart" optional="YES" attributeType="String"/>
+        <attribute name="uuiString" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="Pill" positionX="-63" positionY="-18" width="128" height="193"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import NotificationCenter
 
 class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -20,12 +21,13 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     @IBOutlet var typeTextField: UITextField!
     @IBOutlet var instructionsTextField: UITextField!
     @IBOutlet var startDateTextField: UITextField!
-    @IBOutlet var endDateTextField: UITextField!
     @IBOutlet var intakeTextField: UITextField!
     @IBOutlet var colorOrImageTextField: UITextField!
     
     
     //MARK:- Properties
+    
+    
     
     // Selected options
     var selectedPillType: String?
@@ -33,9 +35,9 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     var userSelectedTimeStart: String?
     var userSelectedDateStart: String?
-    var userSelectedTimeEnd: String?
-    var userSelectedDateEnd: String?
-     
+    
+    var selectedNotificationDate: Date?
+    
     // Static options
     var pillTypes = ["Taps", "Pills", "g", "mg", "mcg"]
     var intake = ["1 Times a Day", "2 Times a Day", "3 Times a Day", "4 Times a Day"]
@@ -62,7 +64,6 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         
         // Create datePickerView for a textField
         createDatePicker(for: startDateTextField)
-        createDatePicker(for: endDateTextField)
         
         // Add toolbar to textFields
         dissmissPickerView(for: typeTextField)
@@ -70,7 +71,6 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         dissmissPickerView(for: colorOrImageTextField)
         
         dissmissPickerView(for: startDateTextField)
-        dissmissPickerView(for: endDateTextField)
         
         // Add keyboard done button
         addDoneButtonOnKeyboard(for: nameTextField)
@@ -160,6 +160,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     func createDatePicker(for textField: UITextField) {
         datePicker = UIDatePicker()
         datePicker?.datePickerMode = .dateAndTime
+        let minDatePicker = Date()
+        datePicker?.minimumDate = minDatePicker
         textField.inputView = datePicker
         datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
     }
@@ -176,18 +178,14 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             
             guard let startTimeText = self.startDateTextField.text else { return }
             
+            // Create notification Date
+            selectedNotificationDate = dateFormatter.date(from: startTimeText)
+            
             // Create time and date substring
             userSelectedTimeStart = self.createSubstring(for: startTimeText).time
             userSelectedDateStart = self.createSubstring(for: startTimeText).date
             
-        } else if endDateTextField.isFirstResponder {
-            self.endDateTextField.text = dateFormatter.string(from: datePicker.date)
             
-            guard let endTimeText = self.endDateTextField.text else { return }
-            
-            // Create time and date substring
-            userSelectedTimeEnd = self.createSubstring(for: endTimeText).time
-            userSelectedDateEnd = self.createSubstring(for: endTimeText).date
         }
         
     }
@@ -254,13 +252,15 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         
         // Set pill taken
         pill.pillTaken = false
+        let uuidString = UUID()
+        pill.uuiString = uuidString
+        
+        pill.selectedNotificationDate = selectedNotificationDate
         
         pill.selectedPillType = selectedPillType
         pill.selectedIntake = selectedIntake
         pill.userSelectedTimeStart = userSelectedTimeStart
         pill.userSelectedDateStart = userSelectedDateStart
-        pill.userSelectedTimeEnd = userSelectedTimeEnd
-        pill.userSelectedDateEnd = userSelectedDateEnd
         
         if let destVC = segue.destination as? HomeViewController {
             
@@ -279,6 +279,8 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             // Send pill color to HomeVC
             //            guard let pillColor = colorOrImageTextField.textColor else { return }
             //            pill.pillColor = pillColor
+            
+            createNotification(pill: pill)
             
             // Append new pill to pill array
             destVC.pillsArray.append(pill)
@@ -300,6 +302,51 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             
         } catch {
             print("Error Saving context, \(error)")
+        }
+        
+    }
+    
+    func createNotification (pill: Pill) {
+        
+        // Ask for permistion for local notification
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            if granted {
+                print("notification granted!")
+            } else {
+                print("notification was denied!")
+            }
+        }
+        
+        // Create the notification content
+        let content = UNMutableNotificationContent()
+        
+        // Create notification title, body and info
+        guard let pillNameString = pill.pillName else { return }
+        content.title = pillNameString
+        guard let pillInstructionString = pill.pillInstruction else { return }
+        content.body = pillInstructionString
+        content.sound = .default
+        
+        // Create notification trigger
+        guard let selectedDate = pill.selectedNotificationDate else { return }
+        
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: selectedDate)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request
+        guard let uuidstr = pill.uuiString?.uuidString else { return }
+        
+        let request = UNNotificationRequest(identifier: uuidstr, content: content, trigger: trigger)
+        
+        // Register the request
+        center.add(request) { (error) in
+            // Handle error
+            if error != nil {
+                print("Failed to add notification request, \(error!)")
+            }
         }
         
     }
