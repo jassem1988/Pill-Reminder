@@ -58,25 +58,13 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         checkIfTextFieldIsNotEmpty()
         
         // Create PickerViews for a textField
-        createPickerView(for: typeTextField)
-        createPickerView(for: intakeTextField)
-        createPickerView(for: colorOrImageTextField)
+        createPickerView(for: [typeTextField, intakeTextField, colorOrImageTextField])
         
         // Create datePickerView for a textField
         createDatePicker(for: startDateTextField)
         
         // Add toolbar to textFields
-        dissmissPickerView(for: typeTextField)
-        dissmissPickerView(for: intakeTextField)
-        dissmissPickerView(for: colorOrImageTextField)
-        
-        dissmissPickerView(for: startDateTextField)
-        
-        // Add keyboard done button
-        addDoneButtonOnKeyboard(for: nameTextField)
-        addDoneButtonOnKeyboard(for: doseTextField)
-        addDoneButtonOnKeyboard(for: instructionsTextField)
-        
+        dissmissPickerView(for: [typeTextField, intakeTextField, colorOrImageTextField, startDateTextField, nameTextField, doseTextField, instructionsTextField])
         
     }
     
@@ -136,19 +124,25 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     //MARK:- PickerView own methods
     
-    func createPickerView(for textField: UITextField) {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        textField.inputView = pickerView
+    func createPickerView(for textFields: [UITextField]) {
+        
+        for textField in textFields {
+            let pickerView = UIPickerView()
+            pickerView.delegate = self
+            textField.inputView = pickerView
+        }
     }
     
-    func dissmissPickerView(for textField: UITextField) {
+    func dissmissPickerView(for textFields: [UITextField]) {
         let toolBar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
         toolBar.sizeToFit()
         let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
         toolBar.setItems([button], animated: true)
         toolBar.isUserInteractionEnabled = true
-        textField.inputAccessoryView = toolBar
+        
+        for textField in textFields {
+            textField.inputAccessoryView = toolBar
+        }
     }
     
     @objc func action() {
@@ -189,32 +183,6 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         }
         
     }
-    
-    //MARK: - Add Keyboard Actions
-    
-    // Add Done button to the keyboard
-    func addDoneButtonOnKeyboard(for textField: UITextField) {
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-        
-        doneToolbar.barStyle = UIBarStyle.default
-        
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
-        
-        var items = [UIBarButtonItem]()
-        items.append(done)
-        doneToolbar.items = items
-        doneToolbar.sizeToFit()
-        
-        textField.inputAccessoryView = doneToolbar
-    }
-    
-    // Dismiss Keyboard when Done button pressed
-    @objc func doneButtonAction() {
-        nameTextField.resignFirstResponder()
-        doseTextField.resignFirstResponder()
-        instructionsTextField.resignFirstResponder()
-    }
-    
     
     //MARK:- My own methods
     
@@ -280,6 +248,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             //            guard let pillColor = colorOrImageTextField.textColor else { return }
             //            pill.pillColor = pillColor
             
+            // Create Notification
             createNotification(pill: pill)
             
             // Append new pill to pill array
@@ -303,15 +272,15 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         } catch {
             print("Error Saving context, \(error)")
         }
-        
     }
     
     func createNotification (pill: Pill) {
         
         // Ask for permistion for local notification
         let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
         
-        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             if granted {
                 print("notification granted!")
             } else {
