@@ -23,6 +23,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     @IBOutlet var startDateTextField: UITextField!
     @IBOutlet var intakeTextField: UITextField!
     @IBOutlet var colorOrImageTextField: UITextField!
+    @IBOutlet var pillsCountTextField: UITextField!
     
     
     //MARK:- Properties
@@ -35,6 +36,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
     
     var userSelectedTimeStart: String?
     var userSelectedDateStart: String?
+    var pillsCount: String?
     
     var selectedNotificationDate: Date?
     
@@ -64,7 +66,7 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
         createDatePicker(for: startDateTextField)
         
         // Add toolbar to textFields
-        dissmissPickerView(for: [typeTextField, intakeTextField, colorOrImageTextField, startDateTextField, nameTextField, doseTextField, instructionsTextField])
+        dissmissPickerView(for: [typeTextField, intakeTextField, colorOrImageTextField, startDateTextField, nameTextField, instructionsTextField, pillsCountTextField])
         
     }
     
@@ -243,6 +245,14 @@ class PillViewController: UITableViewController, UITextFieldDelegate, UIPickerVi
             // Send pill timer to HomeVC
             guard let userTimerStart = startDateTextField.text else { return }
             pill.pillStartTimer = userTimerStart
+            
+            // Send pill dosage to HomeVc
+            guard let doseTextFieldText = doseTextField.text else { return }
+            pill.selectedDosage = doseTextFieldText
+            
+            // Send pill count to HomeVC
+            guard let pillCountText = pillsCountTextField.text else { return }
+            pill.pillsCount = pillCountText
             
             // Send pill color to HomeVC
             //            guard let pillColor = colorOrImageTextField.textColor else { return }

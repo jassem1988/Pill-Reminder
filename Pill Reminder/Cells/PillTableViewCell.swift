@@ -16,6 +16,7 @@ class PillTableViewCell: UITableViewCell {
     @IBOutlet var instructionsCell: UILabel!
     @IBOutlet var pillTimerCell: UILabel!
     @IBOutlet var doneImageView: UIImageView!
+    @IBOutlet var pillsLeft: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

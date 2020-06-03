@@ -16,14 +16,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBl-eD-K05">
-                        <rect key="frame" x="0.0" y="5" width="320" height="21"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ld8-m7-4hS">
+                        <rect key="frame" x="0.0" y="60" width="320" height="15"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ld8-m7-4hS">
-                        <rect key="frame" x="0.0" y="60" width="320" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taps left: 000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9DP-o1-qcL">
+                        <rect key="frame" x="250" y="5" width="68" height="14.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -50,20 +50,27 @@
                             <constraint firstAttribute="width" secondItem="tVM-4y-LYS" secondAttribute="height" multiplier="1:1" id="LlR-is-kw8"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBl-eD-K05">
+                        <rect key="frame" x="122" y="5" width="76.5" height="21"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tVM-4y-LYS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="39O-cf-eA3"/>
+                    <constraint firstAttribute="trailing" secondItem="9DP-o1-qcL" secondAttribute="trailing" constant="2" id="7gx-J3-LPG"/>
                     <constraint firstAttribute="trailing" secondItem="DpX-Td-Hkn" secondAttribute="trailing" constant="10" id="9Bg-lb-TC2"/>
                     <constraint firstAttribute="trailing" secondItem="Ld8-m7-4hS" secondAttribute="trailing" id="9tQ-ai-h6Q"/>
-                    <constraint firstItem="eBl-eD-K05" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="BV8-IP-ac3"/>
                     <constraint firstItem="Ld8-m7-4hS" firstAttribute="top" secondItem="DpX-Td-Hkn" secondAttribute="bottom" id="FyS-Rg-9UV"/>
                     <constraint firstItem="DpX-Td-Hkn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JVt-oQ-Mg4"/>
                     <constraint firstItem="SAO-be-RJW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Skr-h3-LWR"/>
-                    <constraint firstItem="eBl-eD-K05" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="bMZ-Uf-S2z"/>
+                    <constraint firstItem="eBl-eD-K05" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="YJ6-r1-MIL"/>
+                    <constraint firstItem="9DP-o1-qcL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Z5A-N2-gaY"/>
                     <constraint firstItem="Ld8-m7-4hS" firstAttribute="top" secondItem="tVM-4y-LYS" secondAttribute="bottom" id="em3-wZ-4Dn"/>
                     <constraint firstItem="Ld8-m7-4hS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="gem-vt-DNI"/>
-                    <constraint firstAttribute="trailing" secondItem="eBl-eD-K05" secondAttribute="trailing" id="gmt-KP-3W9"/>
                     <constraint firstAttribute="bottom" secondItem="Ld8-m7-4hS" secondAttribute="bottom" constant="5" id="lu5-Rm-RI6"/>
+                    <constraint firstItem="eBl-eD-K05" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="nok-ej-rKn"/>
                     <constraint firstItem="tVM-4y-LYS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vA9-Sh-uqc"/>
                     <constraint firstItem="SAO-be-RJW" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="zwJ-cc-LLY"/>
                 </constraints>
@@ -75,6 +82,7 @@
                 <outlet property="pillImageView" destination="tVM-4y-LYS" id="hXx-gg-pEk"/>
                 <outlet property="pillNameCell" destination="eBl-eD-K05" id="Rc6-Gd-4AV"/>
                 <outlet property="pillTimerCell" destination="SAO-be-RJW" id="Dnp-8c-aaA"/>
+                <outlet property="pillsLeft" destination="9DP-o1-qcL" id="EkC-Fc-Cla"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="96.428571428571431"/>
         </tableViewCell>

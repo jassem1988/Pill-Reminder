@@ -3,8 +3,11 @@
     <entity name="Pill" representedClassName=".Pill" syncable="YES" codeGenerationType="class">
         <attribute name="pillInstruction" optional="YES" attributeType="String"/>
         <attribute name="pillName" attributeType="String"/>
+        <attribute name="pillsCount" optional="YES" attributeType="String"/>
+        <attribute name="pillsRemaining" optional="YES" attributeType="String"/>
         <attribute name="pillStartTimer" optional="YES" attributeType="String"/>
         <attribute name="pillTaken" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="selectedDosage" optional="YES" attributeType="String"/>
         <attribute name="selectedIntake" optional="YES" attributeType="String"/>
         <attribute name="selectedNotificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="selectedPillType" optional="YES" attributeType="String"/>
@@ -13,6 +16,6 @@
         <attribute name="uuiString" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="Pill" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="Pill" positionX="-63" positionY="-18" width="128" height="238"/>
     </elements>
 </model>

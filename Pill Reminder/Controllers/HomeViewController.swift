@@ -82,7 +82,14 @@ class HomeViewController: UITableViewController {
         cell.pillNameCell.text = singlePill.pillName
         cell.instructionsCell.text = singlePill.pillInstruction
         cell.pillTimerCell.text = singlePill.pillStartTimer
-        //        cell.pillImageView.backgroundColor = singlePill.pillColor
+        
+        if let pillCountLabelText = singlePill.pillsCount {
+            
+            cell.pillsLeft.text = pillCountLabelText
+            
+        }
+        
+                //        cell.pillImageView.backgroundColor = singlePill.pillColor
         
         // Add color to pill taken img (ternary operation)
         
@@ -109,18 +116,35 @@ class HomeViewController: UITableViewController {
     }
     
     
-    // Left Swipe Actions
+    // Left Swipe Actions (Take and Edit)
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        // Write action code for deleting a Pill
+        // Write action code for Take a Pill
         let pillTakenAction = UIContextualAction(style: .normal, title: "Done") { (UIContextualAction, UIView, boolValue) in
             
             // Toggle pill taken when selected
             self.pillsArray[indexPath.row].pillTaken = !self.pillsArray[indexPath.row].pillTaken
             
+            // Update pill count on the cell
+            guard let pillCountText = self.pillsArray[indexPath.row].pillsCount else {
+                return
+            }
+            
+            guard let selectedDosageText = self.pillsArray[indexPath.row].selectedDosage else {
+                return
+            }
+            
+            let pillCountInt = Int(pillCountText) ?? 0
+            let selectedDosageInt = Int(selectedDosageText) ?? 0
+            
+            if pillCountInt > 0 {
+                self.pillsArray[indexPath.row].pillsCount = String(pillCountInt - selectedDosageInt)
+            }
+            
             self.savePillsTaken()
             
             boolValue(true)
+            
         }
         
         pillTakenAction.backgroundColor = .green
